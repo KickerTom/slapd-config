@@ -17,13 +17,13 @@ overlay="${4}"
 attribute="${5}"
 dn="$(bindpw="${bindpw}" /usr/local/bin/slapd-overlay-dn "${1}" "${2}" "${3}" "${4}")"
 shift 5
-
+values="${@}"
 
 # See how it currently looks
 set +e
 search="$(builtin echo -n "${bindpw}" | \
 	ldapsearch -o ldif-wrap=no -H "${socket}" -D "${binddn}" -y /dev/stdin -b "${dn}" -s base "${attribute}" | \
-	grep "^${attribute}:")"
+	grep -iE "^${attribute}: (\{[[:digit:]]*\})?${values}$")"
 set -e
 
 # Decide what to do
@@ -47,6 +47,7 @@ else
 	# Replace existing attribute
 	operation='replace'
 	# Check if everything is already as desired
+	shopt -s nocasematch
 	for param in "${@}"; do
 		needReplace=0
 		while IFS='' read searchline; do

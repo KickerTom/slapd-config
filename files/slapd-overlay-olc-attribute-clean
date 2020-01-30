@@ -19,7 +19,7 @@ shift 4
 set +e
 search="$(builtin echo -n "${bindpw}" | \
 	ldapsearch -o ldif-wrap=no -H "${socket}" -D "${binddn}" -y /dev/stdin -b "${dn}" -s base | \
-	grep "^olc")"
+	grep "^olc" | grep -v "^olcOverlay: ")"
 set -e
 
 # See what we should delete
@@ -27,7 +27,7 @@ todel=''
 while IFS='' read line; do
 	delthis=1
 	for param in "${@}"; do
-		if [[ "${line}" =~ ^"${param}":\ .* ]]; then
+		if [[ "${line}" =~ ^"${param}" ]]; then
 			delthis=0
 			break
 		fi
