@@ -2,7 +2,7 @@
 - name: Hash monitor password
   command: >
     /usr/local/bin/slapd-password-hash "{{ slapd_ldapi_socket | urlencode() | regex_replace('/', '%2F') }}" "{{ slapd_olc_rootdn }}"
-    "olcDatabase={1}monitor,cn=config" "olcRootPW"
+    "olcDatabase={2}monitor,cn=config" "olcRootPW"
   environment:
     bindpw: "{{ slapd_olc_rootdn_password | mandatory }}"
     newpw: "{{ slapd_monitor_rootdn_password | mandatory }}"
@@ -12,7 +12,7 @@
 - name: Apply monitor configuration
   command: >
     /usr/local/bin/slapd-attribute-upsert "{{ slapd_ldapi_socket | urlencode() | regex_replace('/', '%2F') }}" "{{ slapd_olc_rootdn }}"
-    "olcDatabase={1}monitor,cn=config"
+    "olcDatabase={2}monitor,cn=config"
     "{{ item.key }}" {% if item.value is iterable and item.value is not string %}"{{ item.value | join('" "') }}"{% else %}"{{ item.value }}"{% endif %}
   environment:
     bindpw: "{{ slapd_olc_rootdn_password | mandatory }}"
@@ -23,7 +23,7 @@
 - name: Clean unknown monitor config items
   command: >
     /usr/local/bin/slapd-olc-attribute-clean "{{ slapd_ldapi_socket | urlencode() | regex_replace('/', '%2F') }}" "{{ slapd_olc_rootdn }}"
-    "olcDatabase={1}monitor,cn=config"
+    "olcDatabase={2}monitor,cn=config"
     "{{ default_monitor_config | combine(slapd_monitor_config) | join('" "') }}"
   environment:
     bindpw: "{{ slapd_olc_rootdn_password | mandatory }}"

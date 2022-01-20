@@ -69,17 +69,10 @@ default_olc_config:
   olcSyncUseSubentry: "FALSE"
   olcMaxDerefDepth: 15
   olcMonitoring: "FALSE"
-# Monitor database configuration
-default_monitor_config:
-  # General
-  olcDatabase: "{1}monitor"
-  olcAccess: [ "to * by * none" ]
-  olcRootDN: "cn=root,cn=monitor"
-  olcRootPW: "{{ hashedMonitorPassword.stdout }}"
 # MDB database configuration
 default_mdb_config:
   # General
-  olcDatabase: "{2}mdb"
+  olcDatabase: "{1}mdb"
   olcDbDirectory: "{{ slapd_mdb_dir | mandatory }}"
   olcAccess: [ "to * by * none" ]
   olcRootDN: "cn=root,{{ slapd_mdb_config.olcSuffix | mandatory }}"
@@ -88,3 +81,10 @@ default_mdb_config:
   olcDbCheckpoint: "8192 15"
   olcDbMode: "0600"
   olcDbSearchStack: 16
+# Monitor database configuration
+default_monitor_config:
+  # General
+  olcDatabase: "{2}monitor"
+  olcAccess: [ "to * by * none" ]
+  olcRootDN: "cn=root,cn=monitor"
+  olcRootPW: "{{ hashedMonitorPassword.stdout }}"

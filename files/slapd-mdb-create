@@ -15,7 +15,7 @@ dbDir="${4}"
 # See how it currently looks
 set +e
 builtin echo -n "${bindpw}" | \
-	ldapsearch -o ldif-wrap=no -H "${socket}" -D "${binddn}" -y /dev/stdin -b "olcDatabase={2}mdb,cn=config" -s base "dn"
+	ldapsearch -o ldif-wrap=no -H "${socket}" -D "${binddn}" -y /dev/stdin -b "olcDatabase={1}mdb,cn=config" -s base "dn"
 status="${?}"
 set -e
 
@@ -26,9 +26,9 @@ fi
 
 # Create it
 cat << EOF > /dev/shm/addmdb.ldif
-dn: olcDatabase={2}mdb,cn=config
+dn: olcDatabase={1}mdb,cn=config
 objectClass: olcMdbConfig
-olcDatabase: {2}mdb
+olcDatabase: {1}mdb
 olcSuffix: ${suffix}
 olcDbDirectory: ${dbDir}
 EOF

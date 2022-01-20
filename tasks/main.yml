@@ -27,11 +27,6 @@
 - include: frontend-config.yml
 # OLC
 - include: olc-config.yml
-# Monitor
-- include: monitor-create.yml
-  when: slapd_enable_monitor
-- include: monitor-config.yml
-  when: slapd_enable_monitor
 # MDB
 - include: mdb-create.yml
 - include: mdb-overlay-create.yml
@@ -41,3 +36,8 @@
   with_dict: "{{ slapd_mdb_overlays }}"
   when: "slapd_mdb_overlays is not undefined"
 - include: mdb-config.yml
+# Monitor
+- include: monitor-create.yml
+  when: slapd_enable_monitor
+- include: monitor-config.yml
+  when: slapd_enable_monitor

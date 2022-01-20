@@ -2,7 +2,7 @@
 - name: Create {{ item.key }} Overlay
   command: >
     /usr/local/bin/slapd-create-overlay "{{ slapd_ldapi_socket | urlencode() | regex_replace('/', '%2F') }}" "{{ slapd_olc_rootdn }}"
-    "olcDatabase={2}mdb,cn=config"
+    "olcDatabase={1}mdb,cn=config"
     "{{ item.key }}"
     {% for dict in item.value %}
     {% for key, value in dict.items() %}
