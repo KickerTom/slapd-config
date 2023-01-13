@@ -29,10 +29,10 @@
 - import_tasks: olc-config.yml
 # MDB
 - import_tasks: mdb-create.yml
-- import_tasks: mdb-overlay-create.yml
+- include_tasks: mdb-overlay-create.yml
   with_dict: "{{ slapd_mdb_overlays }}"
   when: "slapd_mdb_overlays is not undefined"
-- import_tasks: mdb-overlay-config.yml
+- include_tasks: mdb-overlay-config.yml
   with_dict: "{{ slapd_mdb_overlays }}"
   when: "slapd_mdb_overlays is not undefined"
 - import_tasks: mdb-config.yml
