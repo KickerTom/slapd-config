@@ -19,6 +19,7 @@
   register: out
   changed_when: "'CHANGED' in out.stdout | default('')"
   with_dict: "{{ default_mdb_config | combine(slapd_mdb_config) }}"
+  ignore_errors: yes # slapd sometimes complain when changing values already set. Should be handled better.
 
 - name: Clean unknown MDB config items
   command: >
